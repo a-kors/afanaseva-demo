@@ -38,6 +38,7 @@ const {
     display: inline-flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
   }
   .cta-group__social {
     width: 42px;
@@ -89,5 +90,14 @@ const {
   .cta-group--dark .cta-group__social:hover {
     color: #ffffff;
     border-color: #ffffff;
+  }
+  @media (max-width: 480px) {
+    .cta-group {
+      width: 100%;
+    }
+    .cta-group__main {
+      flex-basis: 100%;
+      justify-content: center;
+    }
   }
 </style>
