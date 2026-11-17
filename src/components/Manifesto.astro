@@ -3,7 +3,8 @@ import { Image } from 'astro:assets';
 import manifestoImg from '../assets/photos/manifesto.jpg';
 ---
 
-<section class="man" aria-labelledby="manifesto-h">
+<section class="man" aria-labelledby="manifesto-h" data-lit-scene>
+  <div class="stick">
   <div class="wrap grid">
     <figure class="photo" data-reveal>
       <Image
@@ -18,26 +19,27 @@ import manifestoImg from '../assets/photos/manifesto.jpg';
       />
     </figure>
 
-    <div class="copy" data-reveal data-reveal-delay="120">
+    <div class="copy" data-lit-copy>
       <span class="eyebrow">Что я делаю</span>
 
-      <h2 id="manifesto-h">
+      <h2 id="manifesto-h" data-lit>
         Помогаю создавать семью, в&nbsp;которой <em>хочется быть,</em>
         а&nbsp;не&nbsp;«терпеть».
       </h2>
 
-      <p class="lead">
+      <p class="lead" data-lit>
         Сама живу так, как учу: больше 20&nbsp;лет в&nbsp;ладных отношениях
         с&nbsp;мужем, трое детей и&nbsp;при этом свобода. Летом мотоцикл,
         зимой снегоход. Дети не&nbsp;мешают, они вдохновляют.
       </p>
 
-      <p class="meta">
+      <p class="meta" data-reveal>
         <span class="tag">семья</span>
         <span class="tag">отношения</span>
         <span class="tag">опора на&nbsp;себя</span>
       </p>
     </div>
+  </div>
   </div>
 </section>
 
@@ -45,7 +47,41 @@ import manifestoImg from '../assets/photos/manifesto.jpg';
   .man {
     padding: clamp(80px, 11vw, 160px) 0;
     background: #ffffff;
-    overflow: hidden;
+    overflow-x: clip; /* clip, а не hidden: не ломает sticky */
+  }
+  /* широкий экран: блок прилипает, текст «загорается» прокруткой */
+  @media (min-width: 861px) {
+    .man {
+      --sticky: 1;
+      height: 230vh;
+      padding: 0;
+    }
+    .stick {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 62px; /* под шапкой */
+    }
+    .photo-img {
+      height: min(74vh, 693px);
+      width: auto;
+      transform: scale(calc(1.07 - 0.07 * var(--mp, 1)));
+      transform-origin: 50% 60%;
+    }
+    .photo {
+      overflow: hidden;
+      border-radius: 2px;
+      justify-self: center;
+    }
+    .eyebrow {
+      margin-bottom: 28px;
+    }
+  }
+  /* слово: из бледного в полный цвет */
+  :global(html.motion) [data-lit] :global(.lw) {
+    opacity: calc(0.14 + 0.86 * var(--lp, 0));
   }
   .grid {
     display: grid;
